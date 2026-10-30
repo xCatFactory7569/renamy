@@ -281,7 +281,7 @@ struct NameField: View {
         TextField("…", text: $file.proposedName)
             .textFieldStyle(.roundedBorder)
             .disabled(file.status == .spostato)
-            .onChange(of: file.proposedName) { _, _ in vm.proposedNameEdited(file) }
+            .onChange(of: file.proposedName) { _ in vm.proposedNameEdited(file) }
     }
 }
 
