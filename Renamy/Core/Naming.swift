@@ -34,7 +34,9 @@ enum Naming {
         // FIX: senza data di uscita prima usciva "Titolo (N/A)"
         let hasYear = hasValidYear(year)
         var name: String
-        if format == .compact {
+        if format == .simple {
+            name = title
+        } else if format == .compact {
             name = title.replacingOccurrences(of: " ", with: ".") + (hasYear ? ".\(year)" : "")
         } else {
             name = hasYear ? "\(title) (\(year))" : title
@@ -43,7 +45,13 @@ enum Naming {
         }
         if media.isTV, let e = media.episode {
             let s = media.season ?? "01"
-            name += (format == .compact ? "." : " ") + "S\(s)E\(e)"
+            let separator: String
+            switch format {
+            case .compact: separator = "."
+            case .simple:  separator = " - "
+            default:       separator = " "
+            }
+            name += separator + "S\(s)E\(e)"
         }
         return sanitizeFileName(name)
     }
