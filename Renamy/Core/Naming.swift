@@ -62,7 +62,7 @@ enum Naming {
         let year = media.year
         let base = hasValidYear(year) ? "\(title) (\(year))" : title
         switch format {
-        case .compact:  return title
+        case .compact, .simple: return title
         case .standard: return base
         case .plex, .jellyfin, .emby:
             if let tag = format.tmdbTag(media.tmdbID) { return sanitizeFileName("\(base) \(tag)") }
@@ -89,6 +89,7 @@ enum Naming {
                let tR = Range(m.range(at: 1), in: newName), let sR = Range(m.range(at: 2), in: newName) {
                 var root = String(newName[tR])
                 if format == .compact { root = root.replacingOccurrences(of: ".", with: " ") }
+                if format == .simple { root = root.trimmingCharacters(in: CharacterSet(charactersIn: " -")) }
                 let season = String(format: "%02d", Int(newName[sR]) ?? 1)
                 return base.appendingPathComponent(sanitizeFileName(root), isDirectory: true)
                     .appendingPathComponent("Season \(season)", isDirectory: true)
