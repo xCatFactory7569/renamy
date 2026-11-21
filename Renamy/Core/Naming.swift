@@ -34,7 +34,9 @@ enum Naming {
         // FIX: senza data di uscita prima usciva "Titolo (N/A)"
         let hasYear = hasValidYear(year)
         var name: String
-        if format == .compact {
+        if format == .simple {
+            name = title
+        } else if format == .compact {
             name = title.replacingOccurrences(of: " ", with: ".") + (hasYear ? ".\(year)" : "")
         } else {
             name = hasYear ? "\(title) (\(year))" : title
@@ -43,7 +45,13 @@ enum Naming {
         }
         if media.isTV, let e = media.episode {
             let s = media.season ?? "01"
-            name += (format == .compact ? "." : " ") + "S\(s)E\(e)"
+            let separator: String
+            switch format {
+            case .compact: separator = "."
+            case .simple:  separator = " - "
+            default:       separator = " "
+            }
+            name += separator + "S\(s)E\(e)"
         }
         return sanitizeFileName(name)
     }
@@ -54,7 +62,7 @@ enum Naming {
         let year = media.year
         let base = hasValidYear(year) ? "\(title) (\(year))" : title
         switch format {
-        case .compact:  return title
+        case .compact, .simple: return title
         case .standard: return base
         case .plex, .jellyfin, .emby:
             if let tag = format.tmdbTag(media.tmdbID) { return sanitizeFileName("\(base) \(tag)") }
@@ -81,6 +89,7 @@ enum Naming {
                let tR = Range(m.range(at: 1), in: newName), let sR = Range(m.range(at: 2), in: newName) {
                 var root = String(newName[tR])
                 if format == .compact { root = root.replacingOccurrences(of: ".", with: " ") }
+                if format == .simple { root = root.trimmingCharacters(in: CharacterSet(charactersIn: " -")) }
                 let season = String(format: "%02d", Int(newName[sR]) ?? 1)
                 return base.appendingPathComponent(sanitizeFileName(root), isDirectory: true)
                     .appendingPathComponent("Season \(season)", isDirectory: true)
