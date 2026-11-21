@@ -83,6 +83,7 @@
 "fmt_plex" = "Plex: Title (Year) {tmdb-id}";
 "fmt_jellyfin" = "Jellyfin: Title (Year) [tmdbid-id]";
 "fmt_emby" = "Emby: Title (Year) [tmdbid=id]";
+"fmt_simple" = "Title - S01E01";
 "lang_system" = "System";
 "lang_restart_hint" = "Renamy restarts to change language.";
 "btn_restart" = "Relaunch Now";
@@ -119,6 +120,7 @@
 "fmt_short_jellyfin" = "Jellyfin";
 "fmt_short_plex" = "Plex";
 "fmt_short_standard" = "Standard";
+"fmt_short_simple" = "Simple";
 "insp_and_more" = "… and %ld more";
 "insp_change_match" = "Change Match…";
 "insp_destination" = "After renaming";
