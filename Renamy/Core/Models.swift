@@ -52,7 +52,7 @@ struct AmbiguousMatch: Identifiable {
 struct RenameHistoryItem { let originalURL: URL; let newURL: URL; let fileID: UUID; let baseURL: URL? }
 
 enum RenameFormat: String, CaseIterable, Identifiable {
-    case standard = "standard"; case compact = "compact"; case plex = "plex"; case jellyfin = "jellyfin"; case emby = "emby"
+    case standard = "standard"; case compact = "compact"; case plex = "plex"; case jellyfin = "jellyfin"; case emby = "emby"; case simple = "simple"
     var id: String { self.rawValue }
 
     var label: String { Strings.get("fmt_\(rawValue)") }
@@ -64,7 +64,7 @@ enum RenameFormat: String, CaseIterable, Identifiable {
         case .plex:              return "{tmdb-\(id)}"
         case .jellyfin:          return "[tmdbid-\(id)]"
         case .emby:              return "[tmdbid=\(id)]"
-        case .standard, .compact: return nil
+        case .standard, .compact, .simple: return nil
         }
     }
 }
